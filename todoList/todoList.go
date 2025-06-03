@@ -60,7 +60,7 @@ import (
     l.tasks[index-1].Done = !l.tasks[index-1].Done
   }
 
-  func (l *List) DeleteSelected () {
+  func (l *List) DeleteSelected() {
     filteredTasks := make([]Task, 0, len(l.tasks))
     for _, task := range l.tasks {
       if !task.Done {
