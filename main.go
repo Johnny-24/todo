@@ -15,37 +15,36 @@ func main () {
 		color.Magenta("Выбарите действие: ")
 		fmt.Scan(&answear)
 
-		if answear == 1 {
+		switch answear {
+		case 1:
 			myList.GetAll()
 			myList.Hello(false)
-		}
 
-		if answear == 2 {
+		case 2:
 			var task string
 			color.Magenta("Введи название задачи: ")
 			fmt.Scan(&task)
 			myList.Create(task)
 			myList.Hello(false)
-		}
 
-		if answear == 3 {
+		case 3:
 			var indexStr string
 			color.Magenta("Введи номер задачи: ")
 			fmt.Scan(&indexStr)
-
 			index, err := strconv.Atoi(indexStr)
 			if err != nil {
 				color.Red("Ошибка: нужно ввести число!")
 					return
 			}
-
 			myList.Delete(index)
 			myList.Hello(false)
-		}
 
-		if answear == 4 {
+		case 4:
 			color.Blue("Выход...")
 			return
+
+		default:
+			color.Red("Ошибка: нужно ввести число от 1 до 4!")
 		}
 	}
 }
