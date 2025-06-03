@@ -3,6 +3,7 @@ package todoList
 import (
 	"fmt"
 	"github.com/fatih/color"
+    "todo/utils"
 )
 
 type Task struct {
@@ -30,7 +31,9 @@ func (l *List) Create(text string) {
 }
 
 func (l *List) Delete(index int) {
-    l.tasks = append(l.tasks[:index-1], l.tasks[index:]...)
+    utilsArray := utils.Array[Task]{}
+    newArray := utilsArray.DelByIdx(l.tasks, index-1)
+    l.tasks = newArray
     color.Cyan("Задача удалена")
 }
 
@@ -48,6 +51,18 @@ func (l *List) GetAll() {
     fmt.Println("")
 }
 
+func (l *List) SelectTask(index int) {
+    if index > len(l.tasks) {
+        color.Red("Такой задачи нет")
+        return
+    }
+    l.tasks[index-1].Done = !l.tasks[index-1].Done
+}
+
+func (l *List) DeleteSelected () {
+
+}
+
 func (l *List) Hello(title bool) {
     if title {
         fmt.Println("")
@@ -59,6 +74,7 @@ func (l *List) Hello(title bool) {
 	color.Yellow("1 - Список задач")
 	color.Yellow("2 - Добавить задачу")
 	color.Yellow("3 - Удалить задачу")
-	color.Yellow("4 - Выход")
+	color.Yellow("4 - Отметить задачу")
+	color.Yellow("5 - Выход")
 	color.Yellow("")
 }

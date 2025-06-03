@@ -40,11 +40,22 @@ func main () {
 			myList.Hello(false)
 
 		case 4:
+			var indexStr string
+			color.Magenta("Введи номер задачи: ")
+			fmt.Scan(&indexStr)
+			index, err := strconv.Atoi(indexStr)
+			if err != nil {
+				color.Red("Ошибка: нужно ввести число!")
+					return
+			}
+			myList.SelectTask(index)
+			myList.Hello(false)
+		case 5:
 			color.Blue("Выход...")
 			return
 
 		default:
-			color.Red("Ошибка: нужно ввести число от 1 до 4!")
+			color.Red("Ошибка: нужно ввести число от 1 до 5!")
 		}
 	}
 }
