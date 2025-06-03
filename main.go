@@ -1,69 +1,51 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+	"todo/todoList"
+	"github.com/fatih/color"
+)
 func main () {
-	list := []string{}
+	myList := todoList.NewList()
+	myList.Hello(true)
 
-	greeting()
-	enter(&list)
-
-}
-
-func enter (list *[]string) {
 	for {
 		var answear int
-		fmt.Print("Выбарите действие: ")
+		color.Magenta("Выбарите действие: ")
 		fmt.Scan(&answear)
 
 		if answear == 1 {
-			if len(*list) == 0 {
-				fmt.Println("Список задач пуст")
-			} else {
-				for index, el := range *list {
-					fmt.Println(index + 1, el)
-				}
-			}
+			myList.GetAll()
+			myList.Hello(false)
 		}
 
 		if answear == 2 {
 			var task string
-			fmt.Println("Введи название задачи: ")
+			color.Magenta("Введи название задачи: ")
 			fmt.Scan(&task)
-			*list = append(*list, task)
+			myList.Create(task)
+			myList.Hello(false)
 		}
 
 		if answear == 3 {
-			if len(*list) == 0 {
-				fmt.Println("Список задач пуст, удалять нечего!")
-				continue
-			}
-			var id int
-			fmt.Println("Введи номер задачи которую нужно удалить: ")
-			fmt.Scan(&id)
+			var indexStr string
+			color.Magenta("Введи номер задачи: ")
+			fmt.Scan(&indexStr)
 
-			if id < 1 || id > len(*list) {
-				fmt.Println("Неверный номер задачи!")
-				continue
+			index, err := strconv.Atoi(indexStr)
+			if err != nil {
+				color.Red("Ошибка: нужно ввести число!")
+					return
 			}
 
-			*list = append((*list)[:id-1], (*list)[id:]...)
-			fmt.Println("Задача удалена!")
+			myList.Delete(index)
+			myList.Hello(false)
 		}
 
 		if answear == 4 {
-			fmt.Println("Выход...")
+			color.Blue("Выход...")
 			return
 		}
 	}
-}
-
-func greeting () {
-	fmt.Println("")
-	fmt.Println("<=== Todo List ===>")
-	fmt.Println("")
-
-	fmt.Println("1 - Список задач")
-	fmt.Println("2 - Добавить задачу")
-	fmt.Println("3 - Удалить задачу")
-	fmt.Println("4 - Выход")
 }
