@@ -56,6 +56,21 @@ func main () {
 			myList.Hello(false)
 
 		case 6:
+			var indexStr string
+			color.Magenta("Введи номер задачи: ")
+			fmt.Scan(&indexStr)
+			index, err := strconv.Atoi(indexStr)
+			if err != nil {
+				color.Red("Ошибка: нужно ввести число!")
+					return
+			}
+			myList.Edit(index - 1)
+			myList.Hello(false)
+
+		case 7:
+			myList.DelAll()
+			myList.Hello(false)
+		case 8:
 			color.Blue("Выход...")
 			return
 

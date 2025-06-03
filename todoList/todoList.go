@@ -28,14 +28,14 @@ import (
       Done: false,
     }
     l.tasks = append(l.tasks, newTask)
-    color.Cyan("Задача добавлена")
+    color.Cyan("Успех!")
   }
 
   func (l *List) Delete(index int) {
     utilsArray := utils.Array[Task]{}
     newArray := utilsArray.DelByIdx(l.tasks, index-1)
     l.tasks = newArray
-    color.Cyan("Задача удалена")
+    color.Cyan("Успех!")
   }
 
   func (l *List) GetAll() {
@@ -43,10 +43,11 @@ import (
       color.Red("Список задач пуст")
       return
     }
+    fmt.Println("")
     for index, el := range l.tasks {
       status := "[]"
       if el.Done { status = "[X]" }
-      fmt.Println(index + 1, status, el.Text)
+      fmt.Println("№",index + 1, status, el.Text)
     }
 
     fmt.Println("")
@@ -70,6 +71,19 @@ import (
     l.tasks = filteredTasks
   }
 
+  func (l *List) Edit(idx int) {
+    var name string
+    color.Magenta("Введи новое название: ")
+    fmt.Scan(&name)
+    l.tasks[idx].Text = name
+    color.Cyan("Успех!")
+  }
+
+  func (l *List) DelAll() {
+    l.tasks = make([]Task, 0)
+    color.Cyan("Успех!")
+  }
+
   func (l *List) Hello(title bool) {
     if title {
       fmt.Println("")
@@ -83,6 +97,8 @@ import (
     color.Yellow("3 - Удалить задачу")
     color.Yellow("4 - Отметить задачу")
     color.Yellow("5 - Удалить все отмеченные задачи")
-    color.Yellow("6 - Выход")
+    color.Yellow("6 - Редактировать задачу")
+    color.Yellow("7 - Удалить все задачи")
+    color.Yellow("8 - Выход")
     color.Yellow("")
   }
