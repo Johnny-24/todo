@@ -50,7 +50,12 @@ func main () {
 			}
 			myList.SelectTask(index)
 			myList.Hello(false)
+
 		case 5:
+			myList.DeleteSelected()
+			myList.Hello(false)
+
+		case 6:
 			color.Blue("Выход...")
 			return
 
