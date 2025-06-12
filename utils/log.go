@@ -6,7 +6,7 @@ import (
 	"time"
 )
 func SaveLog () {
-	filePath := "log.txt"
+	filePath := "logs/log.txt"
 	var oldData string
 	fileExist := true
 	fileInfo, err := os.Stat(filePath)
