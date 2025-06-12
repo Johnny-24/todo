@@ -4,9 +4,12 @@ import (
 	"fmt"
 	"strconv"
 	"todo/todoList"
+	"todo/utils"
 	"github.com/fatih/color"
 )
 func main () {
+	utils.SaveLog()
+
 	myList := todoList.NewList()
 	myList.Hello(true)
 
