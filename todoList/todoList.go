@@ -1,20 +1,42 @@
 package todoList
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 	"todo/utils"
 
 	"github.com/fatih/color"
 )
 
   type Task struct {
-    id   int
-    Text string
-    Done bool
+    Id   int `json:"id"`
+    Text string `json:"text"`
+    Done bool `json:"done"`
   }
 
   type List struct {
-    tasks []Task
+    Tasks []Task `json:"Tasks"`
+  }
+
+  func createJsonFile (list *List) {
+    jsonFile, err := json.Marshal(&list)
+    if err != nil {
+      fmt.Println(err)
+      return
+    }
+
+    file, err := os.Create("data.json")
+    if err != nil {
+      fmt.Println(err)
+      return
+    }
+
+    _, err = file.Write(jsonFile)
+    if err != nil {
+      fmt.Println(err)
+    }
+    defer file.Close()
   }
 
   func NewList() *List {
@@ -23,28 +45,30 @@ import (
 
   func (l *List) Create(text string) {
     newTask := Task{
-      id:   len(l.tasks) + 1,
+      Id:   len(l.Tasks) + 1,
       Text: text,
       Done: false,
     }
-    l.tasks = append(l.tasks, newTask)
+    l.Tasks = append(l.Tasks, newTask)
+    createJsonFile(l)
     color.Cyan("Успех!")
   }
 
   func (l *List) Delete(index int) {
     utilsArray := utils.Array[Task]{}
-    newArray := utilsArray.DelByIdx(l.tasks, index-1)
-    l.tasks = newArray
+    newArray := utilsArray.DelByIdx(l.Tasks, index-1)
+    l.Tasks = newArray
+    createJsonFile(l)
     color.Cyan("Успех!")
   }
 
   func (l *List) GetAll() {
-    if len(l.tasks) == 0 {
+    if len(l.Tasks) == 0 {
       color.Red("Список задач пуст")
       return
     }
     fmt.Println("")
-    for index, el := range l.tasks {
+    for index, el := range l.Tasks {
       status := "[]"
       if el.Done { status = "[X]" }
       fmt.Println("№",index + 1, status, el.Text)
@@ -54,33 +78,37 @@ import (
   }
 
   func (l *List) SelectTask(index int) {
-    if index > len(l.tasks) {
+    if index > len(l.Tasks) {
       color.Red("Такой задачи нет")
       return
     }
-    l.tasks[index-1].Done = !l.tasks[index-1].Done
+    l.Tasks[index-1].Done = !l.Tasks[index-1].Done
+    createJsonFile(l)
   }
 
   func (l *List) DeleteSelected() {
-    filteredTasks := make([]Task, 0, len(l.tasks))
-    for _, task := range l.tasks {
+    filteredTasks := make([]Task, 0, len(l.Tasks))
+    for _, task := range l.Tasks {
       if !task.Done {
         filteredTasks = append(filteredTasks, task)
       }
     }
-    l.tasks = filteredTasks
+    l.Tasks = filteredTasks
+    createJsonFile(l)
   }
 
   func (l *List) Edit(idx int) {
     var name string
     color.Magenta("Введи новое название: ")
     fmt.Scan(&name)
-    l.tasks[idx].Text = name
+    l.Tasks[idx].Text = name
+    createJsonFile(l)
     color.Cyan("Успех!")
   }
 
   func (l *List) DelAll() {
-    l.tasks = make([]Task, 0)
+    l.Tasks = make([]Task, 0)
+    createJsonFile(l)
     color.Cyan("Успех!")
   }
 
