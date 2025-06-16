@@ -4,9 +4,20 @@ import (
 	"fmt"
 	"os"
 	"time"
+	"path/filepath"
 )
 func SaveLog () {
 	filePath := "logs/log.txt"
+	dirPath := filepath.Dir(filePath)
+
+	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+		err := os.MkdirAll(dirPath, 0755)
+		if err != nil {
+			fmt.Println("Ошибка создания директории:", err)
+			return
+		}
+	}
+
 	var oldData string
 	fileExist := true
 	fileInfo, err := os.Stat(filePath)
