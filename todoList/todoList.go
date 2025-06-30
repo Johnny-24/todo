@@ -112,6 +112,21 @@ import (
     color.Cyan("Успех!")
   }
 
+  func (l *List) ReadFromFile (list *List) ([]byte, error) {
+    file, err := os.ReadFile("data.json")
+    fmt.Println("file", file)
+    if err != nil {
+      fmt.Println("err1", err)
+      return nil, err
+    }
+
+    err = json.Unmarshal(file, &list)
+    if err != nil {
+      return nil, err
+    }
+    return file, nil
+  }
+
   func (l *List) Hello(title bool) {
     if title {
       fmt.Println("")

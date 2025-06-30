@@ -12,6 +12,7 @@ func main () {
 
 	myList := todoList.NewList()
 	myList.Hello(true)
+	myList.ReadFromFile(myList)
 
 	for {
 		var answear int
